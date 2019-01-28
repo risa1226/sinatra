@@ -1,0 +1,36 @@
+h1 {
+    color: #E2A9F3;
+}
+
+ul {
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+    font-weight: lighter;
+}
+
+.button {
+	font-size: 12px;
+	display: block;
+	width: 70px;
+	padding: 0.4em;
+	text-align: center;
+	text-decoration: none;
+    color: #E2A9F3;
+	border: 2px solid #E2A9F3;
+	border-radius: 3px;
+}
+
+.button_change {
+	font-size: 12px;
+	display: block;
+	width: 65px;
+	padding: 0.4em 0.1em;
+	text-align: center;
+	text-decoration: none;
+	color: #E2A9F3;
+	border: 2px solid #E2A9F3;
+	border-radius: 3px;
+}

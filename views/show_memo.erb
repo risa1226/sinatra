@@ -1,0 +1,8 @@
+<h1>show</h1>
+    <p><%= @memo['title']%></p>
+    <p><%= @memo['memo']%></p>
+    <p><a class="button_change" href='/memo/edit/<%= @memo['id'] %>'>変更</a></p>
+<form  method="post" action="/memo/delete/<%= @memo['id'] %>">
+    <input type='hidden' name='_method' value='DELETE'>
+    <input class="button" type='submit' value='削除'>
+</form>

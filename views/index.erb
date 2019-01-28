@@ -1,0 +1,8 @@
+<h1>memo</h1>
+    <ul>
+        <% @memos.each do |memo| %>
+           <a href='/memo/<%= memo['id']%>' ><%=  memo['title'] %></a>
+        <% end %>
+    </ul>
+
+<a href='/new_memo'><input class="button" type="submit" value="新規作成"></a>
