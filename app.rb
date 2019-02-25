@@ -6,28 +6,24 @@ require "json"
 
 enable :method_override
 
-def rewrite_json
-  File.open("hoge.json", "w") do |file|
-    JSON.dump(@memos, file)
+def load_file(file_name)
+  File.open(file_name) do |file|
+    JSON.parse(file.read)
   end
 end
 
-def load_file
-  File.open("hoge.json") do |file|
-    @memos = JSON.parse(file.read)
+def rewrite_json(file_name, hash_object)
+  File.open(file_name, "w") do |file|
+    JSON.dump(hash_object, file)
   end
-end
+end 
 
-def load_element
-  File.open("hoge.json") do |file|
-    @memos = JSON.parse(file.read)
-    number = params["id"].to_i
-    @memo = @memos[number - 1]
-  end
+def number
+  params["id"].to_i
 end
 
 get "/" do
-  load_file
+  @memos = load_file("hoge.json")
   erb :index
 end
 
@@ -36,25 +32,30 @@ get "/new_memo" do
 end
 
 get "/memo/:id" do
-  load_element
+  @memos = load_file("hoge.json")
+  number 
+  @memo = @memos[number - 1]
   erb :show_memo
 end
 
 post "/new_memo" do
-  load_file
+  @memos = load_file("hoge.json")
   File.open("hoge.json") do |file|
     hash_number = JSON.load(file).count
     params["id"] = hash_number + 1
   end
 
   @memos.push(params)
-  rewrite_json
+  rewrite_json("hoge.json", @memos)
   redirect "/"
   erb :index
 end
 
 delete "/memo/delete/:id" do
-  load_element
+  @memos = load_file("hoge.json")
+  number
+  @memo = @memos[number - 1]
+
   @memo.clear
   @memos.delete({})
 
@@ -62,18 +63,22 @@ delete "/memo/delete/:id" do
     memo["id"] -= 1 if memo["id"] > params["id"].to_i
   end
 
-  rewrite_json
+  rewrite_json("hoge.json", @memos)
   redirect "/"
   erb :index
 end
 
 get "/memo/edit/:id" do
-  load_element
+  @memos = load_file("hoge.json")
+  number
+  @memo = @memos[number - 1]
   erb :edit_memo
 end
 
 patch "/memo/edit_memo/:id" do
-  load_element
+  @memos = load_file("hoge.json")
+  number
+  @memo = @memos[number - 1]
   @memos.each do |memo|
     if memo["id"] == params["id"].to_i
       memo["title"] = params["title"]
@@ -81,7 +86,7 @@ patch "/memo/edit_memo/:id" do
     end
   end
 
-  rewrite_json
+  rewrite_json("hoge.json", @memos)
   redirect "/"
   erb :index
 end
