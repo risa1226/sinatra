@@ -4,8 +4,6 @@ require "sinatra"
 require "sinatra/reloader"
 require "json"
 
-enable :method_override
-
 def load_file(file_name)
   File.open(file_name) do |file|
     JSON.parse(file.read)
